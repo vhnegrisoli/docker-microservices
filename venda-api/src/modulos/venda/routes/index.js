@@ -2,7 +2,7 @@ import { Router } from 'express';
 import axios from 'axios';
 import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import * as produtoClient from '../../produto/client';
+import * as produtoClient from '../../produto/ProdutoClient';
 
 const router = new Router();
 const swaggerOptions = {
