@@ -1,4 +1,4 @@
-package br.com.dge.produtoapi.config;
+package br.com.dge.produtoapi.config.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

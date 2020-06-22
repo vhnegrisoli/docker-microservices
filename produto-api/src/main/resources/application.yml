@@ -35,6 +35,9 @@ server:
   port: 8080
 
 app-config:
+  services:
+    venda:
+      url: http://venda-api:3000
   queue:
     produto-atualizar-estoque: produto-atualizar-estoque.queue
   topic:

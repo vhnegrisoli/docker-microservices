@@ -1,6 +1,6 @@
 package br.com.dge.produtoapi.modulos.produto.service;
 
-import br.com.dge.produtoapi.config.ValidacaoException;
+import br.com.dge.produtoapi.config.exception.ValidacaoException;
 import br.com.dge.produtoapi.modulos.produto.model.Categoria;
 import br.com.dge.produtoapi.modulos.produto.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
