@@ -5,24 +5,25 @@ import * as auth from '../../../config/auth/authKey';
 import Usuario from '../model/Usuario';
 
 class UsuarioController {
-  async auth(req, res) {
+  async salvarUsaurio(req, res) {
     try {
-      const { email, senha } = req.body;
-      const usuario = await Usuario.findAll({ email });
-      if (!usuario) {
-        return res.status(400).json({ message: 'O email ' + email + ' não foi encontrado.' });
-      }
-      if (await bcrypt.compare(senha, usuario.senha)) {
-        const { id, email, nome } = usuario;
-        return res.json(
-          jwt.sign({ authUser: { id, email, nome } }, auth.apiKey, {
-            expiresIn: '1d',
-          }),
-        );
-      }
-      return res.status(401).json({ message: 'A senha está incorreta.' });
+      const { nome, email, senha } = req.body;
+      this.validarEmailExistente(email, res);
+      const usuario = await Usuario.create({
+        nome,
+        email,
+        senha,
+      });
+      return res.json(usuario);
     } catch (error) {
       return res.status(400).json(error);
+    }
+  }
+
+  async validarEmailExistente(email, res) {
+    const usuario = Usuario.find({ email });
+    if (usuario) {
+      return res.status(400).json({ message: 'Usuário já existente.' });
     }
   }
 }

@@ -17,6 +17,7 @@ export default async (req, res, next) => {
     req.authUser = decoded.authUser;
     return next();
   } catch (error) {
+    console.info(erro);
     return res.status(401).message(unauthorized);
   }
 };
