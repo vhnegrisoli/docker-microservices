@@ -49,4 +49,19 @@ public class ProdutoController {
     public Produto salvarProduto(@RequestBody Produto produto, @PathVariable Integer id) {
         return produtoService.alterarProduto(produto, id);
     }
+
+    @GetMapping("razao-social/{razaoSocial}")
+    public List<Produto> buscarPorRazaoSocial(@PathVariable String razaoSocial) {
+        return produtoService.buscarPorRazaoSocial(razaoSocial);
+    }
+
+    @GetMapping("cnpj/{cnpj}")
+    public List<Produto> buscarPorCnpj(@PathVariable String cnpj) {
+        return produtoService.buscarPorCnpj(cnpj);
+    }
+
+    @GetMapping("categoria/{descricao}")
+    public List<Produto> buscarPorDescricaoCategoria(@PathVariable String descricao) {
+        return produtoService.buscarPorCategoria(descricao);
+    }
 }

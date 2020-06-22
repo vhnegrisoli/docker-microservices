@@ -10,6 +10,10 @@ public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
     List<Produto> findByDescricaoContaining(String descricao);
 
+    List<Produto> findByCategoriaIdIn(List<Integer> categoriasIds);
+
+    List<Produto> findByFornecedorIdIn(List<Integer> fornecedoresIds);
+
     List<Produto> findByDisponibilidadeAndQtdEstoqueGreaterThan(EDisponibilidade disponibilidade, Integer qtdEstoque);
 
     Boolean existsByDescricao(String descricao);

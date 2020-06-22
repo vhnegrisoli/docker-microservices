@@ -1,0 +1,39 @@
+### Criar a rede 
+
+docker network create dge_microservices
+
+### Criar e rodar imagem do banco de dados do PostgreSQL e do PGAdmin4
+
+docker pull postgres
+
+docker run --name produto-api-db --network dge_microservices -e "POSTGRES_PASSWORD=produto-api-db" -p 5432:5432 -v C:\db -d postgres 
+
+substituir pelo seu diretório, no meu caso estou rodando no Windows 10
+
+### Criar e rodar imagem do MongoDB
+
+docker pull tutum/mongodb
+
+docker run --network dge_microservices --name venda-api-mongo -d -p 27017:27017 -p 28017:28017 -e MONGODB_PASS="venda-api" tutum/mongodb
+
+docker ps -a
+
+docker start 77b903780b83
+
+### Criando a imagem e instalando o RabbitMQ
+
+docker run  --network dge_microservices -d --hostname dge_rabbit --name dge_rabbit -p 8082:15672 -p 5672:5672 -p 25676:25676 rabbitmq:3-management
+
+### Criar imagens das aplicações
+	
+docker image build -t produto-api .
+docker image build -t venda-api .
+
+### Rodando os containeres
+
+docker container run --network dge_microservices --name produto-api -p 8080:8080 -d produto-api
+docker container run --network dge_microservices --name venda-api -p   8081:3000 -d venda-api
+
+mvn clean install -DskipTests
+
+docker logs --follow produto-api

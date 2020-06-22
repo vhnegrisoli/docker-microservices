@@ -1,16 +1,21 @@
 package br.com.dge.produtoapi.modulos.produto.service;
 
 import br.com.dge.produtoapi.config.ValidacaoException;
+import br.com.dge.produtoapi.modulos.produto.model.Categoria;
+import br.com.dge.produtoapi.modulos.produto.model.Fornecedor;
 import br.com.dge.produtoapi.modulos.produto.model.Produto;
 import br.com.dge.produtoapi.modulos.produto.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static br.com.dge.produtoapi.modulos.produto.enums.EDisponibilidade.DISPONIVEL;
 import static br.com.dge.produtoapi.modulos.produto.enums.EDisponibilidade.INDISPONIVEL;
+import static org.springframework.util.ObjectUtils.isEmpty;
 
 @Service
 public class ProdutoService {
@@ -19,6 +24,10 @@ public class ProdutoService {
 
     @Autowired
     private ProdutoRepository produtoRepository;
+    @Autowired
+    private FornecedorService fornecedorService;
+    @Autowired
+    private CategoriaService categoriaService;
 
     @Transactional
     public Produto salvarProduto(Produto produto) {
@@ -105,5 +114,41 @@ public class ProdutoService {
         if (produto.isEstoqueZerado() && produto.isDisponivel()) {
             produto.setDisponibilidade(INDISPONIVEL);
         }
+    }
+
+    public List<Produto> buscarPorCnpj(String cnpj) {
+        var fornecedores = fornecedorService.buscarPorCnpj(cnpj);
+        if (!isEmpty(fornecedores)) {
+            return produtoRepository
+                .findByFornecedorIdIn(fornecedores
+                    .stream()
+                    .map(Fornecedor::getId)
+                    .collect(Collectors.toList()));
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Produto> buscarPorRazaoSocial(String razaoSocial) {
+        var fornecedores = fornecedorService.buscarPorRazaoSocial(razaoSocial);
+        if (!isEmpty(fornecedores)) {
+            return produtoRepository
+                .findByFornecedorIdIn(fornecedores
+                    .stream()
+                    .map(Fornecedor::getId)
+                    .collect(Collectors.toList()));
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Produto> buscarPorCategoria(String descricao) {
+        var categorias = categoriaService.buscarPorDescricao(descricao);
+        if (!isEmpty(categorias)) {
+            return produtoRepository
+                .findByCategoriaIdIn(categorias
+                    .stream()
+                    .map(Categoria::getId)
+                    .collect(Collectors.toList()));
+        }
+        return Collections.emptyList();
     }
 }
