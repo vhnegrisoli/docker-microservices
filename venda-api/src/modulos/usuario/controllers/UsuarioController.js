@@ -9,11 +9,7 @@ class UsuarioController {
     try {
       const { nome, email, senha } = req.body;
       this.validarEmailExistente(email, res);
-      const usuario = await Usuario.create({
-        nome,
-        email,
-        senha,
-      });
+      const usuario = await Usuario.create(req.body);
       return res.json(usuario);
     } catch (error) {
       return res.status(400).json(error);
@@ -21,7 +17,7 @@ class UsuarioController {
   }
 
   async validarEmailExistente(email, res) {
-    const usuario = Usuario.find({ email });
+    const usuario = await Usuario.find({ email });
     if (usuario) {
       return res.status(400).json({ message: 'Usuário já existente.' });
     }

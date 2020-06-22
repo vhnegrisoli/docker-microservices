@@ -3,8 +3,10 @@ import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import * as produtoClient from '../../produto/ProdutoClient';
 
+import checkToken from '../../../config/auth/checkToken';
 
 const router = new Router();
+
 const swaggerOptions = {
   swaggerDefinition: {
     info: {
@@ -23,6 +25,8 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 router.use('/api-docs', swaggerUi.serve);
 router.get('/api-docs', swaggerUi.setup(swaggerDocs));
+
+router.use(checkToken);
 
 /**
  * @swagger
