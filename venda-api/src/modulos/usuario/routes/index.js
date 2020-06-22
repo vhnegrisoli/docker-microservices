@@ -1,16 +1,19 @@
-import { Router } from 'express';
+import { Router } from "express";
 
-import UsuarioController from '../controllers/UsuarioController';
-import AuthController from '../controllers/AuthController';
-import checkToken from '../../../config/auth/checkToken';
+import UsuarioController from "../controllers/UsuarioController";
+import AuthController from "../controllers/AuthController";
+import checkToken from "../../../config/auth/checkToken";
 
-const routes = new Router();
+const router = new Router();
 
-routes.post('/api/auth/token', AuthController.auth);
-routes.post('/api/usuarios', UsuarioController.salvarUsaurio);
+router.post("/api/auth/token", AuthController.auth);
+router.post("/api/usuarios", UsuarioController.salvarUsuario);
 
-routes.use(checkToken);
+router.use(checkToken);
 
-routes.post('/api/auth/check_token', AuthController.checkToken);
+router.post("/api/auth/check_token", AuthController.checkToken);
+router.put("/api/usuarios/:id", UsuarioController.editarUsuario);
+router.get("/api/usuarios", UsuarioController.buscarTodosUsuarios);
+router.get("/api/usuarios/:id", UsuarioController.buscarUsuarioPorId);
 
-export default routes;
+export default router;
