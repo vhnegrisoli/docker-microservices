@@ -9,6 +9,10 @@ O objetivo para a criação deste projeto foi após a finalização de uma certi
 eu quis colocar em prática os conhecimentos obtidos com Docker e containers, e meus conhecimentos no desenvolvimento de API REST,
 microsserviços, Spring-Boot e Express.
 
+![Certificado](https://uploaddeimagens.com.br/images/002/720/872/original/Victor_Hugo_Negrisoli_Badge_Docker_IBM.jpeg?1592829624)
+
+O certificado pode ser validado [aqui](https://www.youracclaim.com/badges/d73185bf-7890-4409-a14d-d2dac48af7cc).
+
 ## Tecnologias
 
 O projeto utiliza 5 containers, e é dividido em 2 APIS: `produto-api` e `venda-api`.
