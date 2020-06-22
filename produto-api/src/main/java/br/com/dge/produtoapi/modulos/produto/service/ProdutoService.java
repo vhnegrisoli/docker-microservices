@@ -1,10 +1,13 @@
 package br.com.dge.produtoapi.modulos.produto.service;
 
 import br.com.dge.produtoapi.config.exception.ValidacaoException;
+import br.com.dge.produtoapi.modulos.produto.dto.VendasProdutoResponse;
 import br.com.dge.produtoapi.modulos.produto.model.Categoria;
 import br.com.dge.produtoapi.modulos.produto.model.Fornecedor;
 import br.com.dge.produtoapi.modulos.produto.model.Produto;
 import br.com.dge.produtoapi.modulos.produto.repository.ProdutoRepository;
+import br.com.dge.produtoapi.modulos.rabbitmq.dto.ProdutoEstoqueRequest;
+import br.com.dge.produtoapi.modulos.venda.service.VendaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +31,8 @@ public class ProdutoService {
     private FornecedorService fornecedorService;
     @Autowired
     private CategoriaService categoriaService;
+    @Autowired
+    private VendaService vendaService;
 
     @Transactional
     public Produto salvarProduto(Produto produto) {
@@ -102,10 +107,14 @@ public class ProdutoService {
     }
 
     @Transactional
-    public void atualizarEstoqueProduto(Integer id, Integer qtdPedida) {
-        validarProdutoEstoque(id, qtdPedida);
-        var produto = buscarPorId(id);
-        produto.setQtdEstoque(produto.getQtdEstoque() - qtdPedida);
+    public void atualizarEstoqueProduto(ProdutoEstoqueRequest request) {
+        var produto = buscarPorId(request.getProdutoId());
+        if (request.isReduzirEstoque()) {
+            validarProdutoEstoque(request.getProdutoId(), request.getQtdDesejada());
+            produto.setQtdEstoque(produto.getQtdEstoque() - request.getQtdDesejada());
+        } else {
+            produto.setQtdEstoque(produto.getQtdEstoque() + request.getQtdDesejada());
+        }
         atualizarDispinibilidade(produto);
         produtoRepository.save(produto);
     }
@@ -150,5 +159,11 @@ public class ProdutoService {
                     .collect(Collectors.toList()));
         }
         return Collections.emptyList();
+    }
+
+    public VendasProdutoResponse buscarVendasDoProduto(Integer id) {
+        var produto = buscarPorId(id);
+        var vendasProduto = vendaService.buscarQuantidadeDeVendasDeUmProduto(id);
+        return new VendasProdutoResponse(produto, vendasProduto.getQtdVendas());
     }
 }

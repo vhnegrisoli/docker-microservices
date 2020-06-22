@@ -1,5 +1,6 @@
 package br.com.dge.produtoapi.modulos.produto.controller;
 
+import br.com.dge.produtoapi.modulos.produto.dto.VendasProdutoResponse;
 import br.com.dge.produtoapi.modulos.produto.model.Produto;
 import br.com.dge.produtoapi.modulos.produto.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,5 +64,10 @@ public class ProdutoController {
     @GetMapping("categoria/{descricao}")
     public List<Produto> buscarPorDescricaoCategoria(@PathVariable String descricao) {
         return produtoService.buscarPorCategoria(descricao);
+    }
+
+    @GetMapping("vendas-por-produto/{id}")
+    public VendasProdutoResponse buscarVendasDoProduto(@PathVariable Integer id) {
+        return produtoService.buscarVendasDoProduto(id);
     }
 }

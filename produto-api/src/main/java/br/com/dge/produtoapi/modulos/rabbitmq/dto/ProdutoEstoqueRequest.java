@@ -7,4 +7,5 @@ public class ProdutoEstoqueRequest {
 
     private Integer produtoId;
     private Integer qtdDesejada;
+    private boolean reduzirEstoque;
 }

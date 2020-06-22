@@ -18,7 +18,7 @@ public class ProdutoMqListener {
     public void receberAtualizacaoEstoqueDaFila(ProdutoEstoqueRequest request) {
         log.info("Mensagem recebida: " + request);
         try {
-            produtoService.atualizarEstoqueProduto(request.getProdutoId(), request.getQtdDesejada());
+            produtoService.atualizarEstoqueProduto(request);
         } catch (Exception ex) {
             log.info("Erro ao atualizar produto: " + request.getProdutoId());
             ex.printStackTrace();
