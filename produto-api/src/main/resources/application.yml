@@ -1,0 +1,48 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+  rabbitmq:
+    host: dge_rabbit
+    port: 5672
+    username: guest
+    password: guest
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://produto-api-db:5432/postgres
+    # url: jdbc:postgresql://localhost:5432/teste
+    username: postgres
+    password: produto-api-db
+    # password: 1y5h8j
+    initialization-mode: always
+    initialize: true
+    continue-on-error: true
+    platform: postgresql
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+      format_sql: true
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL9Dialect
+        jdbc:
+          lob.non_contextual_creation: true
+
+server:
+  port: 8080
+
+app-config:
+  queue:
+    produto-atualizar-estoque: produto-atualizar-estoque.queue
+  topic:
+    produto: produto.topic
+  key:
+    produto-atualizar-estoque: produto-atualizar-estoque.queue
+
+management:
+  health:
+    rabbit:
+      enabled: true
