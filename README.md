@@ -43,10 +43,14 @@ HTTP Request via padrão REST e chamadas assíncronas, utilizando comunicação 
 
 A arquitetura é descrita conforme a imagem abaixo:
 
-![Arquitetura da aplicação](https://uploaddeimagens.com.br/images/002/720/844/original/microsservices.io.png?1592828184)
+![Arquitetura da aplicação](https://uploaddeimagens.com.br/images/002/723/394/original/microsservices.io%281%29.png?1592923147)
 
 Serão 5 containers rodando, um para a aplicação Spring-Boot, um para o RabbitMQ, um para a aplicação Express.js, um para o 
 banco de dados relacional PostgreSQL e um para o banco de dados NoSQL MongoDB. 
+
+A aplicação `Venda-API` irá gerenciar as vendas e os usuário. Esta é a aplicação que irá criar e autenticar usuários, validando assim seu token de acesso JWT. A aplicação `Produto-API` irá gerenciar os produtos, categorias e fornecedores. A cada requisição feita no `Produto-API`, será necessário informar um `header` com o nome `Authorization` contendo uma token JWT no padrão `Bearer`, exemplo:
+
+`Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c`
 
 ## Instalação
 
@@ -68,6 +72,10 @@ com as configurações locais da máquina):
 mvn spring-boot:run
 ```
 
+Estará disponível localmente no endereço: 
+
+`http://localhost:8080
+
 #### Venda-API:
 
 Para instalar as dependências:
@@ -82,6 +90,10 @@ instalar o banco de dados MongoDB e o Rabbit em sua máquina e alterar o arquivo
 ```
 yarn start
 ```
+
+Estará disponível localmente no endereço: 
+
+`http://localhost:3000`
 
 ## Build e inicialização dos containers
 
@@ -179,4 +191,6 @@ A documentação do Swagger será conforme vista abaixo:
 
 #### Venda-API
 
-A documentação da aplicação `Venda-API` ainda está em desenvolvimento e não encontra-se disponível no projeto, assim que criar irei disponibilizar.
+Ao inicializar as aplicações corretamente, é possível encontrar a documentação da aplicação `Venda-API` em http://localhost:8081/api-docs ou em http://localhost:3000/api-docs caso esteja rodando localmente.
+
+![Documentação Venda-API](https://uploaddeimagens.com.br/images/002/723/414/original/documentacao_venda_api.png?1592923694)
