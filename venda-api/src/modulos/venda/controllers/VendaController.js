@@ -1,5 +1,6 @@
-import Venda from "../model/Venda";
-import ProdutoClient from "../../produto/ProdutoClient";
+import Venda from '../model/Venda';
+import ProdutoClient from '../../produto/ProdutoClient';
+import * as mq from '../rabbitmq/sender';
 
 class VendaController {
   async salvarVenda(req, res) {
@@ -7,10 +8,7 @@ class VendaController {
       const { authUser } = req;
       const { produtos } = req.body;
       const { authorization } = req.headers;
-      const response = await ProdutoClient.validarEstoque(
-        produtos,
-        authorization
-      );
+      const response = await ProdutoClient.validarEstoque(produtos, authorization);
       if (response && response.status >= 400) {
         return res.status(response.status).json({ message: response });
       }
@@ -19,15 +17,23 @@ class VendaController {
         usuarioNome: authUser.id,
         usuarioEmail: authUser.id,
         produtos,
-        statusVenda: "REALIZADA",
+        statusVenda: 'REALIZADA',
         dataVenda: new Date(),
       });
+      const produtosEstoque = [];
+      produtos.forEach((produto) => {
+        produtosEstoque.push({
+          produtoId: produto.produtoId,
+          qtdDesejada: produto.qtdDesejada,
+          reduzirEstoque: true,
+        });
+      });
+      console.log(produtosEstoque);
+      mq.sendMessage(produtosEstoque);
       return res.json(vendaSalva);
     } catch (error) {
       console.info(error);
-      return res
-        .status(400)
-        .json({ message: "Não foi possível realizar a venda" });
+      return res.status(400).json({ message: 'Não foi possível realizar a venda' });
     }
   }
 
