@@ -18,66 +18,39 @@ module.exports = {
   ],
   tags: [
     {
-      name: 'CRUD operations',
+      name: 'Usuários',
+    },
+    {
+      name: 'Vendas',
     },
   ],
   paths: {
     '/api/usuarios': {
       get: {
-        tags: ['CRUD operations'],
-        description: 'Get users',
-        operationId: 'getUsers',
-        parameters: [
-          {
-            name: 'x-company-id',
-            in: 'header',
-            schema: {
-              $ref: '#/components/schemas/companyId',
-            },
-            required: true,
-            description: 'Company id where the users work',
-          },
-          {
-            name: 'page',
-            in: 'query',
-            schema: {
-              type: 'integer',
-              default: 1,
-            },
-            required: false,
-          },
-          {
-            name: 'orderBy',
-            in: 'query',
-            schema: {
-              type: 'string',
-              enum: ['asc', 'desc'],
-              default: 'asc',
-            },
-            required: false,
-          },
-        ],
+        tags: ['Usuários'],
+        description: 'Buscar todos os usuários',
+        operationId: 'buscarTodosUsuarios',
         responses: {
           '200': {
-            description: 'Users were obtained',
+            description: 'Recupera todos os usuários',
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/Users',
+                  $ref: '#/components/schemas/Usuarios',
                 },
               },
             },
           },
           '400': {
-            description: 'Missing parameters',
+            description: 'Erro ao buscar usuários',
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/Error',
+                  $ref: '#/components/Error',
                 },
                 example: {
-                  message: 'companyId is missing',
-                  internal_code: 'missing_parameters',
+                  message: 'Error message',
+                  status: 400,
                 },
               },
             },
@@ -85,15 +58,15 @@ module.exports = {
         },
       },
       post: {
-        tags: ['CRUD operations'],
-        description: 'Create users',
+        tags: ['Usuários'],
+        description: 'Create Usuarios',
         operationId: 'createUsers',
         parameters: [],
         requestBody: {
           content: {
             'application/json': {
               schema: {
-                $ref: '#/components/schemas/Users',
+                $ref: '#/components/schemas/Usuarios',
               },
             },
           },
@@ -101,18 +74,117 @@ module.exports = {
         },
         responses: {
           '200': {
-            description: 'New users were created',
+            description: 'New Usuarios were created',
           },
           '400': {
             description: 'Invalid parameters',
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/Error',
+                  $ref: '#/components/Error',
                 },
                 example: {
-                  message: 'User identificationNumbers 10, 20 already exist',
+                  message: 'Usuario identificationNumbers 10, 20 already exist',
                   internal_code: 'invalid_parameters',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/api/vendas': {
+      get: {
+        tags: ['Vendas'],
+        description: 'Buscar todas as vendas',
+        operationId: 'buscarTodasAsVendas',
+        responses: {
+          '200': {
+            description: 'Recupera todas as vendas',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Venda',
+                },
+              },
+            },
+          },
+          '400': {
+            description: 'Erro ao buscar vendas',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/Error',
+                },
+                example: {
+                  message: 'Error message',
+                  status: 400,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/api/vendas/nova': {
+      post: {
+        tags: ['Vendas'],
+        description: 'Buscar todas as vendas',
+        operationId: 'buscarTodasAsVendas',
+        responses: {
+          '200': {
+            description: 'Recupera todas as vendas',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Venda',
+                },
+              },
+            },
+          },
+          '400': {
+            description: 'Erro ao buscar vendas',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/Error',
+                },
+                example: {
+                  message: 'Error message',
+                  status: 400,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/api/vendas/cancelar/:id': {
+      get: {
+        tags: ['Vendas'],
+        description: 'Buscar todas as vendas',
+        operationId: 'buscarTodasAsVendas',
+        responses: {
+          '200': {
+            description: 'Recupera todas as vendas',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Venda',
+                },
+              },
+            },
+          },
+          '400': {
+            description: 'Erro ao buscar vendas',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/Error',
+                },
+                example: {
+                  message: 'Error message',
+                  status: 400,
                 },
               },
             },
@@ -123,60 +195,94 @@ module.exports = {
   },
   components: {
     schemas: {
-      identificationNumber: {
-        type: 'integer',
-        description: 'User identification number',
-        example: 1234,
-      },
-      username: {
-        type: 'string',
-        example: 'raparicio',
-      },
-      userType: {
-        type: 'string',
-      },
-      companyId: {
-        type: 'integer',
-        description: 'Company id where the user works',
-        example: 15,
-      },
-      User: {
+      Usuario: {
         type: 'object',
         properties: {
-          identificationNumber: {
-            $ref: '#/components/schemas/identificationNumber',
+          _id: {
+            type: 'string',
+            description: 'ID do usuário',
+            example: '5099803df3f4948bd2f98391',
           },
-          username: {
-            $ref: '#/components/schemas/username',
+          nome: {
+            type: 'string',
+            example: 'João',
           },
-          userType: {
-            $ref: '#/components/schemas/userType',
+          email: {
+            type: 'string',
+            example: 'joao@gmail.com',
           },
-          companyId: {
-            $ref: '#/components/schemas/companyId',
+          senha: {
+            type: 'string',
+            example: '123456',
           },
         },
       },
-      Users: {
+      Venda: {
         type: 'object',
         properties: {
-          users: {
+          _id: {
+            type: 'string',
+            description: 'ID da venda',
+            example: '5099803df3f4948bd2f98391',
+          },
+          produtos: {
             type: 'array',
             items: {
-              $ref: '#/components/schemas/User',
+              $ref: '#/components/schemas/Produtos',
             },
+          },
+          statusVenda: {
+            type: 'enum',
+            properties: ['REALIZADA', 'CANCELADA'],
+            example: 'REALIZADA',
+          },
+          usuarioId: {
+            type: 'string',
+            example: '5099803df3f4948bd2f98391',
+          },
+          usuarioNome: {
+            type: 'string',
+            example: 'João',
+          },
+          usuarioEmail: {
+            type: 'string',
+            example: 'joao@gmail.com',
           },
         },
       },
-      Error: {
+      Produtos: {
         type: 'object',
         properties: {
-          message: {
-            type: 'string',
+          produtoId: {
+            type: 'integer',
+            description: 'ID do produto',
+            example: 1,
           },
-          internal_code: {
-            type: 'string',
+          qtdDesejada: {
+            type: 'integer',
+            description: 'Quantidade desejada',
+            example: 1,
           },
+        },
+      },
+      ProdutoResponse: {
+        
+      },
+      Usuarios: {
+        type: 'array',
+        items: {
+          $ref: '#/components/schemas/Usuario',
+        },
+      },
+    },
+    Error: {
+      type: 'object',
+      properties: {
+        message: {
+          type: 'string',
+        },
+        internal_code: {
+          type: 'string',
         },
       },
     },

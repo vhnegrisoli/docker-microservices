@@ -4,8 +4,8 @@ import VendaController from '../controllers/VendaController';
 
 const router = new Router();
 
-router.post('/api/vendas/nova-venda', VendaController.salvarVenda);
-router.put('/api/vendas/cancelar-venda/:id', VendaController.cancelarVenda);
+router.post('/api/vendas/nova', VendaController.salvarVenda);
+router.put('/api/vendas/cancelar/:id', VendaController.cancelarVenda);
 router.get('/api/vendas', VendaController.buscarTodasAsVendas);
 router.get('/api/vendas/:id', VendaController.buscarVendaPorId);
 router.get('/api/vendas/email/:email', VendaController.buscarVendaPorEmailUsuario);
