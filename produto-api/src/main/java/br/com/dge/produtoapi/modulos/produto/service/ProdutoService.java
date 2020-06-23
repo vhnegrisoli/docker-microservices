@@ -1,6 +1,7 @@
 package br.com.dge.produtoapi.modulos.produto.service;
 
 import br.com.dge.produtoapi.config.exception.ValidacaoException;
+import br.com.dge.produtoapi.modulos.produto.dto.PedidoRequest;
 import br.com.dge.produtoapi.modulos.produto.dto.VendasProdutoResponse;
 import br.com.dge.produtoapi.modulos.produto.model.Categoria;
 import br.com.dge.produtoapi.modulos.produto.model.Fornecedor;
@@ -90,6 +91,11 @@ public class ProdutoService {
 
     public List<Produto> buscarPorDescricao(String descricao) {
         return produtoRepository.findByDescricaoContaining(descricao);
+    }
+
+    public void validarEstoqueVariosProdutos(PedidoRequest request) {
+        request.getProdutos()
+            .forEach(produto -> validarProdutoEstoque(produto.getProdutoId(), produto.getQtdDesejada()));
     }
 
     public void validarProdutoEstoque(Integer id, Integer qtdDesejada) {

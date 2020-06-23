@@ -6,6 +6,8 @@ import vendaRoutes from "./src/modulos/venda/routes/index";
 import usuarioRoutes from "./src/modulos/usuario/routes/index";
 import * as db from "./src/config/db/config";
 
+import checkToken from "./src/config/auth/checkToken";
+
 const app = express();
 
 db.connect();
@@ -36,6 +38,7 @@ swaggerRouter.get("/api-docs", swaggerUi.setup(swaggerDocs));
 
 app.use(swaggerRouter);
 app.use(usuarioRoutes);
+app.use(checkToken);
 app.use(vendaRoutes);
 
 app.listen(3000);

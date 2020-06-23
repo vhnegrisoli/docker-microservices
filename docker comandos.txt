@@ -37,3 +37,4 @@ docker container run --network dge_microservices --name venda-api -p   8081:3000
 mvn clean install -DskipTests
 
 docker logs --follow produto-api
+docker logs --follow venda-api

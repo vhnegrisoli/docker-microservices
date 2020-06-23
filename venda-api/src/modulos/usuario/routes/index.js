@@ -6,12 +6,12 @@ import checkToken from "../../../config/auth/checkToken";
 
 const router = new Router();
 
-router.post("/api/auth/token", AuthController.auth);
+router.post("/auth/token", AuthController.auth);
+router.post("/auth/check_token", AuthController.checkToken);
 router.post("/api/usuarios", UsuarioController.salvarUsuario);
 
 router.use(checkToken);
 
-router.post("/api/auth/check_token", AuthController.checkToken);
 router.put("/api/usuarios/:id", UsuarioController.editarUsuario);
 router.get("/api/usuarios", UsuarioController.buscarTodosUsuarios);
 router.get("/api/usuarios/:id", UsuarioController.buscarUsuarioPorId);

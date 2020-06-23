@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import { promisify } from "util";
 import * as auth from "../../../config/auth/authKey";
 
 import Usuario from "../model/Usuario";
@@ -30,7 +31,18 @@ class AuthController {
   }
 
   async checkToken(req, res) {
-    return res.json({ message: "Token autenticada." });
+    const { token } = req.query;
+    console.log(req.query);
+    if (!token) {
+      return res.status(401).json({ message: "Usuário não autenticado." });
+    }
+    try {
+      await promisify(jwt.verify)(token, auth.apiKey);
+      return res.json({ message: "Token autenticada." });
+    } catch (error) {
+      console.log(error);
+      return res.status(401).json({ message: "Usuário não autenticado." });
+    }
   }
 }
 export default new AuthController();

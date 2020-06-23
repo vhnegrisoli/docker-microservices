@@ -1,19 +1,17 @@
 import { Router } from "express";
 
-import * as produtoClient from "../../produto/ProdutoClient";
+import VendaController from "../controllers/VendaController";
 
 const router = new Router();
 
-/**
- * @swagger
- */
-router.get("/validar-estoque", async (req, res) => {
-  const { produtoId, qtdDesejada } = req.query;
-  const response = await produtoClient.validarEstoque(produtoId, qtdDesejada);
-  if (response.status >= 400) {
-    return res.status(response.status).json({ message: response.message });
-  }
-  return res.json({ message: "Ok" });
-});
+router.post("/api/vendas/nova-venda", VendaController.salvarVenda);
+router.put("/api/vendas/cancelar-venda/:id", VendaController.cancelarVenda);
+router.get("/api/vendas", VendaController.buscarTodasAsVendas);
+router.get("/api/vendas/:id", VendaController.buscarVendaPorId);
+router.get(
+  "/api/vendas/email/:email",
+  VendaController.buscarVendaPorEmailUsuario
+);
+router.get("/api/vendas/nome/:email", VendaController.buscarPorNomeUsuario);
 
 export default router;

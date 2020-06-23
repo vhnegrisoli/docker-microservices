@@ -1,5 +1,6 @@
 package br.com.dge.produtoapi.modulos.produto.controller;
 
+import br.com.dge.produtoapi.modulos.produto.dto.PedidoRequest;
 import br.com.dge.produtoapi.modulos.produto.dto.VendasProdutoResponse;
 import br.com.dge.produtoapi.modulos.produto.model.Produto;
 import br.com.dge.produtoapi.modulos.produto.service.ProdutoService;
@@ -36,9 +37,14 @@ public class ProdutoController {
     }
 
     @GetMapping("validar-estoque")
-    public void buscarPorId(@RequestParam Integer id,
+    public void validarProdutoEstoque(@RequestParam Integer id,
                             @RequestParam Integer qtdDesejada) {
         produtoService.validarProdutoEstoque(id, qtdDesejada);
+    }
+
+    @PutMapping("validar-estoque-varios")
+    public void validarEstoqueVarios(@RequestBody PedidoRequest request) {
+        produtoService.validarEstoqueVariosProdutos(request);
     }
 
     @PostMapping

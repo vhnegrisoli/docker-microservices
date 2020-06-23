@@ -26,6 +26,8 @@ public class ValidateToken extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) throws Exception {
+        System.out.println(request.getRequestURI());
+        System.out.println(request.getHeader(AUTHORIZATION));
         if (request.getRequestURI().contains(PROTECTED_API)) {
             vendaService.tokenValida(recuperarTokenDoHeader(request));
         }

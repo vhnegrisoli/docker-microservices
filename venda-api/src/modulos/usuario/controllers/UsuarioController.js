@@ -4,7 +4,7 @@ class UsuarioController {
   async salvarUsuario(req, res) {
     try {
       const { email } = req.body;
-      const usuarioExistente = Usuario.find({ email });
+      const usuarioExistente = Usuario.findOne({ email });
       if (usuarioExistente) {
         return res.status(400).json({ message: "Usuário já existente." });
       }

@@ -9,10 +9,7 @@ const VendaSchema = new Schema({
   usuarioId: { type: String, required: true },
   usuarioNome: { type: String, required: true },
   usuarioEmail: { type: String, required: true },
-});
-VendaSchema.pre("save", async function (next) {
-  dataVenda = new Date();
-  return next();
+  statusVenda: { type: String, required: true },
 });
 
 module.exports = model("Venda", VendaSchema);
