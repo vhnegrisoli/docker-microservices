@@ -2,6 +2,7 @@ package br.com.dge.produtoapi.config;
 
 import br.com.dge.produtoapi.config.exception.PermissaoException;
 import br.com.dge.produtoapi.modulos.venda.service.VendaService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 
+@Slf4j
 @Component
 public class ValidateToken extends HandlerInterceptorAdapter {
 
@@ -26,8 +28,8 @@ public class ValidateToken extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) throws Exception {
-        System.out.println(request.getRequestURI());
-        System.out.println(request.getHeader(AUTHORIZATION));
+        log.info("Request URI: " + request.getRequestURI());
+        log.info("Authorization header: " + request.getHeader(AUTHORIZATION));
         if (request.getRequestURI().contains(PROTECTED_API)) {
             vendaService.tokenValida(recuperarTokenDoHeader(request));
         }

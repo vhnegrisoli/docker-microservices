@@ -25,7 +25,6 @@ public class VendaService {
 
     public List<String> buscarQuantidadeDeVendasDeUmProduto(Integer produtoId, String token) {
         try {
-            System.out.println(token);
             return vendaClient.buscarVendasDoProduto(produtoId, token);
         } catch (Exception ex) {
             ex.printStackTrace();

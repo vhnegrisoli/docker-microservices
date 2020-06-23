@@ -24,7 +24,6 @@ export function sendMessage(produtos) {
       });
       produtos.forEach((produto) => {
         const produtoJsonString = JSON.stringify(produto);
-        console.log(produtoJsonString);
         channel.sendToQueue(queue, Buffer.from(produtoJsonString));
       });
     });

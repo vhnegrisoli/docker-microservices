@@ -23,7 +23,6 @@ class AuthController {
       }
       return res.status(401).json({ message: 'A senha está incorreta.' });
     } catch (error) {
-      console.info(error);
       return res.status(400).json(error);
     }
   }
@@ -37,7 +36,6 @@ class AuthController {
       await promisify(jwt.verify)(token, auth.apiKey);
       return res.json({ message: 'Token autenticada.' });
     } catch (error) {
-      console.log(error);
       return res.status(401).json({ message: 'Usuário não autenticado.' });
     }
   }

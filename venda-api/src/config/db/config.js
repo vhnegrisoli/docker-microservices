@@ -8,9 +8,9 @@ export function connect() {
     useUnifiedTopology: true,
   });
   mongoose.connection.on('connected', function () {
-    console.log('Conecatdo ao MongoDB');
+    console.info('Conecatdo ao MongoDB');
   });
   mongoose.connection.on('error', function () {
-    console.log('Erro ao conectar ao MongoDB');
+    console.info('Erro ao conectar ao MongoDB');
   });
 }
