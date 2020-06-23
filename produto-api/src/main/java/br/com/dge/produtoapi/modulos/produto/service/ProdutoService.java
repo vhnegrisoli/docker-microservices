@@ -2,6 +2,7 @@ package br.com.dge.produtoapi.modulos.produto.service;
 
 import br.com.dge.produtoapi.config.exception.ValidacaoException;
 import br.com.dge.produtoapi.modulos.produto.dto.PedidoRequest;
+import br.com.dge.produtoapi.modulos.produto.dto.PedidoResponse;
 import br.com.dge.produtoapi.modulos.produto.dto.VendasProdutoResponse;
 import br.com.dge.produtoapi.modulos.produto.model.Categoria;
 import br.com.dge.produtoapi.modulos.produto.model.Fornecedor;
@@ -167,9 +168,16 @@ public class ProdutoService {
         return Collections.emptyList();
     }
 
-    public VendasProdutoResponse buscarVendasDoProduto(Integer id) {
+    public VendasProdutoResponse buscarVendasDoProduto(Integer id, String token) {
         var produto = buscarPorId(id);
-        var vendasProduto = vendaService.buscarQuantidadeDeVendasDeUmProduto(id);
-        return new VendasProdutoResponse(produto, vendasProduto.getQtdVendas());
+        var vendasProduto = vendaService.buscarQuantidadeDeVendasDeUmProduto(id, token);
+        return new VendasProdutoResponse(produto, vendasProduto, vendasProduto.size());
+    }
+
+    public List<PedidoResponse> buscarInformacoesDoPedido(PedidoRequest request) {
+        return request.getProdutos()
+            .stream()
+            .map(pedido -> new PedidoResponse(buscarPorId(pedido.getProdutoId()), pedido.getQtdDesejada()))
+            .collect(Collectors.toList());
     }
 }

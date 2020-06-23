@@ -60,6 +60,7 @@ class VendaController {
       return res.status(400).json({ message: 'Não foi possível cancelar a venda' });
     }
   }
+
   async buscarTodasAsVendas(req, res) {
     try {
       const vendas = await Venda.find();
@@ -68,18 +69,30 @@ class VendaController {
       return res.status(400).json({ message: 'Erro ao buscar as vendas.' });
     }
   }
+
   async buscarVendaPorId(req, res) {
     const { id } = req.params;
+    const { authorization } = req.headers;
     try {
       const venda = await Venda.findById(id);
       if (!venda) {
         return res.status(400).json({ message: 'A venda não foi encontrada.' });
       }
-      return res.json(venda);
+      const pedido = await ProdutoClient.buscarPedidoCompleto(venda.produtos, authorization);
+      return res.json({
+        id: venda._id,
+        usuarioId: venda.usuarioId,
+        usuarioNome: venda.usuarioNome,
+        usuarioEmail: venda.usuarioEmail,
+        statusVenda: venda.statusVenda,
+        produtosVenda: pedido,
+      });
     } catch (error) {
+      console.log(error);
       return res.status(400).json({ message: 'Erro ao buscar venda.' });
     }
   }
+
   async buscarVendaPorEmailUsuario(req, res) {
     const { email } = req.params;
     try {
@@ -92,6 +105,7 @@ class VendaController {
       return res.status(400).json({ message: 'Erro ao buscar vendas.' });
     }
   }
+
   async buscarPorNomeUsuario(req, res) {
     const { nome } = req.params;
     try {
@@ -100,6 +114,19 @@ class VendaController {
         return res.status(400).json({ message: 'As vendas não foram encontradas.' });
       }
       return res.json(vendas);
+    } catch (error) {
+      return res.status(400).json({ message: 'Erro ao buscar vendas.' });
+    }
+  }
+
+  async buscarPorProdutoId(req, res) {
+    const { produtoId } = req.params;
+    try {
+      const vendas = await Venda.find({ 'produtos.produtoId': parseInt(produtoId) });
+      if (!vendas) {
+        return res.status(400).json({ message: 'As vendas não foram encontradas.' });
+      }
+      return res.json(vendas.map((venda) => venda.id));
     } catch (error) {
       return res.status(400).json({ message: 'Erro ao buscar vendas.' });
     }

@@ -1,12 +1,14 @@
 package br.com.dge.produtoapi.modulos.produto.controller;
 
 import br.com.dge.produtoapi.modulos.produto.dto.PedidoRequest;
+import br.com.dge.produtoapi.modulos.produto.dto.PedidoResponse;
 import br.com.dge.produtoapi.modulos.produto.dto.VendasProdutoResponse;
 import br.com.dge.produtoapi.modulos.produto.model.Produto;
 import br.com.dge.produtoapi.modulos.produto.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -73,7 +75,12 @@ public class ProdutoController {
     }
 
     @GetMapping("vendas-por-produto/{id}")
-    public VendasProdutoResponse buscarVendasDoProduto(@PathVariable Integer id) {
-        return produtoService.buscarVendasDoProduto(id);
+    public VendasProdutoResponse buscarVendasDoProduto(@PathVariable Integer id, HttpServletRequest request) {
+        return produtoService.buscarVendasDoProduto(id, request.getHeader("Authorization"));
+    }
+
+    @PostMapping("informacoes-pedido")
+    public List<PedidoResponse> buscarInformacoesDoPedido(@RequestBody PedidoRequest pedido) {
+        return produtoService.buscarInformacoesDoPedido(pedido);
     }
 }
