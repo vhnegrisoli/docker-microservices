@@ -128,7 +128,7 @@ docker pull tutum/mongodb
 Para rodar a imagem:
 
 ```
-docker run --network dge_microservices --name venda-api-mongo -d -p 27017:27017 -p 28017:28017 -e MONGODB_PASS="venda-api" tutum/mongodb
+docker run --network dge_microservices --name venda-api-mongo -d -p 27017:27017 -p 28017:28017 -e MONGODB_PASS=no tutum/mongodb
 ```
 
 ##### Inicialização do container do RabbitMQ
@@ -189,7 +189,7 @@ A documentação do Swagger será conforme vista abaixo:
 
 ![Documentação Produto-API](https://uploaddeimagens.com.br/images/002/720/861/original/produto-api-swagger.png?1592829134)
 
-#### Venda-API
+#### Venda-API (ainda em desenvolvimento)
 
 Ao inicializar as aplicações corretamente, é possível encontrar a documentação da aplicação `Venda-API` em http://localhost:8081/api-docs ou em http://localhost:3000/api-docs caso esteja rodando localmente.
 
