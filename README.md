@@ -201,7 +201,7 @@ Utilize o comando abaixo para encontrar o PID utilizando a porta:
 
 ##### Linux
 
-`sudo ss -lptn 'sport = :NUMERO_DA_PORTA`
+`sudo ss -lptn 'sport = :NUMERO_DA_PORTA'`
 
 E em seguida:
 
