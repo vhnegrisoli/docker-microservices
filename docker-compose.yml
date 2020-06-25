@@ -1,0 +1,48 @@
+version: '3'
+services:
+
+  produto-api-db:
+    image: postgres
+    container_name: produto-api-db
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: produto-api-db
+    ports:
+      - '5432:5432'
+
+  venda-api-mongo:
+    image: mongo
+    container_name: venda-api-mongo
+    restart: always
+    environment:
+      MONGODB_PASS: "no"  
+    ports:
+      - '27017:27017'  
+      - '28017:28017'
+
+  dge_rabbit:
+      image: rabbitmq:3-management
+      container_name: dge_rabbit
+      hostname: dge_rabbit
+      ports:
+        - '5672:5672'
+        - '25676:25676'
+        - '8082:15672'
+
+  produto-api:
+    build: './produto-api'
+    container_name: produto-api
+    ports:
+      - '8080:8080'
+    depends_on:
+      - produto-api-db
+      - dge_rabbit
+
+  venda-api:
+    build: './venda-api'
+    container_name: venda-api
+    ports:
+      - '8081:3000'
+    depends_on:
+      - venda-api-mongo
+      - dge_rabbit
