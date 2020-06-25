@@ -194,3 +194,23 @@ A documentação do Swagger será conforme vista abaixo:
 Ao inicializar as aplicações corretamente, é possível encontrar a documentação da aplicação `Venda-API` em http://localhost:8081/api-docs ou em http://localhost:3000/api-docs caso esteja rodando localmente.
 
 ![Documentação Venda-API](https://uploaddeimagens.com.br/images/002/723/414/original/documentacao_venda_api.png?1592923694)
+
+#### Erro de porta já utilizada
+
+Utilize o comando abaixo para encontrar o PID utilizando a porta:
+
+##### Linux
+
+`sudo ss -lptn 'sport = :NUMERO_DA_PORTA`
+
+E em seguida:
+
+`sudo kill -9 PID`
+
+##### Windows
+
+`netstat -a -n -o | find "NUMERO_DA_PORTA"`
+
+E em seguida:
+
+`tskill PID`
