@@ -13,9 +13,16 @@ microsserviços, Spring-Boot e Express.
 
 O certificado pode ser validado [aqui](https://www.youracclaim.com/badges/d73185bf-7890-4409-a14d-d2dac48af7cc).
 
+Foi adicionado agora um arquivo `docker-compose.yml` para que possa rodar todos os containers.
+
 ## Tecnologias
 
 O projeto utiliza 5 containers, e é dividido em 2 APIS: `produto-api` e `venda-api`.
+
+#### Containers
+
+* Docker
+* docker-compose
 
 #### Produto-API
 
@@ -95,9 +102,49 @@ Estará disponível localmente no endereço:
 
 `http://localhost:3000`
 
+#### Erro de porta já utilizada
+
+Ao tentar rodar os containers, pode ser que você receba algum erro caso alguma das portas utilizadas pelo projeto esteja sendo utilizada por algum outro processo 
+no seu SO, utilize o comando abaixo para encontrar o PID utilizando a porta:
+
+##### Linux
+
+`sudo ss -lptn 'sport = :NUMERO_DA_PORTA'`
+
+E em seguida:
+
+`sudo kill -9 PID`
+
+##### Windows
+
+`netstat -a -n -o | find "NUMERO_DA_PORTA"`
+
+E em seguida:
+
+`tskill PID`
+
 ## Build e inicialização dos containers
 
+É possível realizar a inicialização utilizando apenas o Docker ou o docker-compose.
+
+### Utilizando o docker-compose:
+
+Foi adicionado um arquivo `docker-compose.yml` para inicializar todos os containers.
+
+Primeiramente, instale as dependências do projeto `produto-api`, conforme especificado acima.
+
+Em seguida, rode a aplicação com o comando:
+
+`docker-compose up -d`
+
+Para parar os containers:
+
+`docker-compose stop`
+
 Primeiramente, será necessário definir uma rede:
+
+
+### Criando as imagens e rodando cada container separadamente com Docker:
 
 ```
 docker network create dge_microservices
@@ -194,23 +241,3 @@ A documentação do Swagger será conforme vista abaixo:
 Ao inicializar as aplicações corretamente, é possível encontrar a documentação da aplicação `Venda-API` em http://localhost:8081/api-docs ou em http://localhost:3000/api-docs caso esteja rodando localmente.
 
 ![Documentação Venda-API](https://uploaddeimagens.com.br/images/002/723/414/original/documentacao_venda_api.png?1592923694)
-
-#### Erro de porta já utilizada
-
-Utilize o comando abaixo para encontrar o PID utilizando a porta:
-
-##### Linux
-
-`sudo ss -lptn 'sport = :NUMERO_DA_PORTA'`
-
-E em seguida:
-
-`sudo kill -9 PID`
-
-##### Windows
-
-`netstat -a -n -o | find "NUMERO_DA_PORTA"`
-
-E em seguida:
-
-`tskill PID`
